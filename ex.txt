@@ -1,0 +1,20 @@
+C# using the GCM (Galois/Counter Mode) algorithm with Bouncy Castle, and decryption in PHP using OpenSSL. Here's a step-by-step explanation:
+
+Encryption in C# (using Bouncy Castle):
+
+The Main method initializes the plaintext, generates a 256-bit secret key (key), and generates a 96-bit nonce (nonce).
+The Encrypt method is called, passing the plaintext, key, and nonce.
+In the Encrypt method, a GCM block cipher with AES as the underlying encryption algorithm is created using the GcmBlockCipher class from Bouncy Castle.
+AeadParameters are set up with the key and nonce, and the cipher is initialized for encryption (cipher.Init(true, parameters)).
+A byte array ciphertext is created to hold the encrypted data, and the encryption process is performed using cipher.ProcessBytes and cipher.DoFinal.
+The authentication tag (tag) is retrieved using cipher.GetMac().
+The ciphertext is returned as the result of the Encrypt method.
+Decryption in PHP (using OpenSSL):
+
+In PHP, the provided ciphertext with the appended tag in hexadecimal ($ciphertextWithTagHex), key in hexadecimal ($keyHex), and nonce in hexadecimal ($nonceHex) are initialized.
+The ciphertext and tag are extracted from the provided ciphertext with substr.
+The openssl_decrypt function is used to decrypt the ciphertext. It takes the ciphertext, encryption algorithm (aes-256-gcm), key, OpenSSL_RAW_DATA as the option for returning raw binary data, nonce, and the authentication tag.
+If the decryption is successful ($decrypted is not false), the decrypted plaintext is displayed. Otherwise, an error message is shown.
+Please note that the code assumes the availability of the necessary libraries (BouncyCastle.Crypto.dll for C# and the OpenSSL extension for PHP) and the proper setup of the PHP environment for OpenSSL functions.
+
+Remember to handle key and nonce management securely, ensuring their confidentiality and integrity. Additionally, ensure that the necessary dependencies are installed and configured correctly in your development environment for both C# and PHP
